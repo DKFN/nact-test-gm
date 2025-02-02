@@ -19,3 +19,10 @@ Package.Subscribe("Load", function()
         SpawnPlayer(v)
     end
 end)
+
+Player.Subscribe("Destroy", function(player)
+    local cPlayerChar = player:GetControlledCharacter()
+    if (cPlayerChar) then
+        cPlayerChar:Destroy()
+    end
+end)
