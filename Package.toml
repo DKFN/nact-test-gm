@@ -21,7 +21,6 @@
     packages_requirements = [
                             "nact",
                             "default-weapons",
-                            "sandbox",
     ]
     # asset packs requirements
     assets_requirements = [

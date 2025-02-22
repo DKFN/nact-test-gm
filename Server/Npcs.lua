@@ -7,7 +7,6 @@ StillNpc = {behaviors = {
     { class = NACT_Engage},
     { class = NACT_Seek},
     { class = NACT_Cover},
-
 }}
 PatrollingNpc = {behaviors = {
     { class = NACT_Idle },
@@ -63,13 +62,16 @@ PatrollingNpcFrontDatacenter = {behaviors = {
 
 ZombieNpc = {
     behaviors = {
-    { class = NACT_Idle },
-    { class = NACT_Detection, config = {
-        heatIncrement = 99
-    }},
-    { class = NACT_Melee }
+        { class = NACT_Idle },
+        { class = NACT_Detection, config = {
+            heatIncrement = 99
+        }},
+        { class = NACT_ZombieMelee }
     },
-    lookAroundThrottle = 100
+    triggers = { melee = true, closeProximity = true, detection = true },
+    lookAroundThrottle = 100,
+    autoVison = false,
+    visionAngle = 0 -- TODO: C'est un peu de la merde ca devrait etre 360 mais oklm :D
 }
 
 function createZombieNPC(vInitialPosition, sNpcTerritory, tNpcConfig, tMaybeYaw)
@@ -93,7 +95,7 @@ function createZombieNPC(vInitialPosition, sNpcTerritory, tNpcConfig, tMaybeYaw)
     cZombie:SetTeam(NACT_NPC_TEAMS)
     cZombie:SetSpeedMultiplier(1.1)
     cZombie:SetHealth(250)
-    Console.Log("Behavi"..NanosTable.Dump(tNpcConfig))
+    -- Console.Log("Behavi"..NanosTable.Dump(tNpcConfig))
     return NACT.RegisterNpc(cZombie, sNpcTerritory, tNpcConfig)
 end
 
@@ -106,3 +108,44 @@ function createNpc(vInitialPosition, sNpcTerritory, tNpcConfig, tMaybeYaw)
     Console.Log("Jeff bezos "..NanosTable.Dump(cDebugNPC15))
     return NACT.RegisterNpc(cDebugNPC15, sNpcTerritory, tNpcConfig)
 end
+
+Character.Subscribe("Death", function(character)
+    local maybeNactNPC = NACT_NPC.GetFromCharacter(character)
+    if (maybeNactNPC) then
+        local territoryAllies = maybeNactNPC.territory:GetAlliesInZone()
+        local territoryEnemies = maybeNactNPC.territory:GetEnemiesInZone()
+        if (#territoryAllies == 0) then
+            local territoryName = maybeNactNPC.territory.name
+            Chat.BroadcastMessage("Well done, territory "..maybeNactNPC.territory.name.." is cleaned !!")
+            Chat.BroadcastMessage("Reseting territory in 5s")
+            Timer.SetTimeout(function()
+
+                for k, v in ipairs(territoryEnemies) do
+                    v:SetHealth(0)
+                end
+
+                if (territoryName == "TankBataillonSmall") then
+                    SpawnTankBataillonNPCs()
+                end
+
+                if (territoryName == "ZombieBunker") then
+                    SpawnZombieBunkerNPCs()
+                end
+
+                if (territoryName == "Datacenter") then
+                    SpawnDatacenterNPCs()
+                end
+            end, 5000)
+        end
+
+        for k, enemy in ipairs(territoryEnemies) do
+            local maybePlayerOfTerritory = enemy:GetPlayer()
+            if (maybePlayerOfTerritory and maybePlayerOfTerritory:IsValid()) then
+                Events.CallRemote("NACT_GM:TERRITORY:POPULATION_CHANGED", maybePlayerOfTerritory, {
+                    allies = #territoryEnemies,
+                    enemies = #territoryAllies
+                })
+            end
+        end
+    end
+end)

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                height: 100vh;
+                width: 100vh;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            #playerInfos {
+                position: fixed;
+                bottom: 1rem;
+                right: 1rem;
+                font-size: 2rem;
+                
+            }
+
+            #territoryInfos {
+                position: fixed;
+                top: 1rem;
+                right: 1rem;
+            }
+
+            .container {
+                color: white;
+                background: rgba(0, 0, 0, 0.8);
+                padding: 1rem;
+                border-radius: 0.5rem;
+            }
+
+            .territoryContainer {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .territoryPopulationContainer {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 0.5rem;
+            }
+        </style>
+
+        <script type="text/javascript">
+            Events.Subscribe("UpdateTerritory", (triggerPopulation) => {
+                document.getElementById("alliesCount").innerHTML = triggerPopulation.allies
+                document.getElementById("enemyCount").innerHTML = triggerPopulation.enemies
+            });
+
+            Events.Subscribe("UpdateHealth", (health) => {
+                document.getElementById("healthInfo").innerHTML = health
+            });
+            Events.Subscribe("UpdateAmmo", (currentAmmo, maxAmmo) => {
+                document.getElementById("currentAmmo").innerHTML = currentAmmo
+                document.getElementById("maxAmmo").innerHTML = maxAmmo
+            });
+        </script>
+        </head>
+    <body>
+        Test gui spawn
+        <div id="territoryInfos" class="container">
+            <div class="territoryContainer">
+                <div class="territoryPopulationContainer">
+                    <div class="smallTitle">Enemies</div>
+                    <div style="color: red; font-size: 2rem" id="enemyCount">0</div>
+                </div>
+                <div class="territoryPopulationContainer">
+                    <div class="smallTitle">Allies</div>
+                    <div style="color: green; font-size: 2rem" id="alliesCount">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="playerInfos" class="container">
+            <div class="territoryContainer">
+                <div style="margin-right: 0.5rem">Health:</div>
+                <div id="healthInfo">0</div>
+            </div>
+            <div class="territoryContainer">
+                <div style="margin-right: 0.5rem">Ammo:</div>
+                <div><span id="currentAmmo">0</span>/<span id="maxAmmo">0</span></div>
+            </div>
+        </div>
+    </body>
+</html>
