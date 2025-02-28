@@ -70,8 +70,8 @@ ZombieNpc = {
     },
     triggers = { melee = true, closeProximity = true, detection = true },
     lookAroundThrottle = 100,
-    autoVison = false,
-    visionAngle = 0 -- TODO: C'est un peu de la merde ca devrait etre 360 mais oklm :D
+    autoVision = false,
+    visionAngle = 0 -- TODO: This is more a dead zone than a vision angle
 }
 
 function createZombieNPC(vInitialPosition, sNpcTerritory, tNpcConfig, tMaybeYaw)
@@ -105,7 +105,6 @@ function createNpc(vInitialPosition, sNpcTerritory, tNpcConfig, tMaybeYaw)
     local cDebugNPC15 = Character(vInitialPosition, Rotator(0, NACT.ValueOrDefault(tMaybeYaw, 0), 0), "nanos-world::SK_Mannequin")
     cDebugNPC15:PickUp(wAk4715)
     cDebugNPC15:SetTeam(NACT_NPC_TEAMS)
-    Console.Log("Jeff bezos "..NanosTable.Dump(cDebugNPC15))
     return NACT.RegisterNpc(cDebugNPC15, sNpcTerritory, tNpcConfig)
 end
 
