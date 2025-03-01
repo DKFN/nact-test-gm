@@ -33,3 +33,21 @@ Package.Subscribe("Load", function()
     SpawnDatacenterNPCs()
     SpawnZombieBunkerNPCs()
 end)
+
+
+Timer.SetInterval(function()
+    for k, v in ipairs(Weapon.GetAll()) do
+        local handler = v:GetHandler()
+        if (not (handler and handler:IsValid())) then
+            v:Destroy()
+        end
+    end
+
+    
+    for k, v in ipairs(Melee.GetAll()) do
+        local handler = v:GetHandler()
+        if (not (handler and handler:IsValid())) then
+            v:Destroy()
+        end
+    end
+end, 3000)

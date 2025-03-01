@@ -9,8 +9,14 @@ local function SpawnPlayer(player)
 
     spawnedCharacter:PickUp(AK47)
 
-    player:Possess(spawnedCharacter)
-    spawnedCharacter:SetHealth(500)
+    if (player and player:IsValid()) then
+        player:Possess(spawnedCharacter)
+        spawnedCharacter:SetHealth(500)
+    else
+        AK47:Destroy()
+        spawnedCharacter:Destroy()
+    end
+    
 end
 
 Player.Subscribe("Ready", SpawnPlayer)
@@ -24,7 +30,7 @@ end)
 Character.Subscribe("Death", function(character)
     local maybePlayerCharacter = character:GetPlayer()
     Console.Log("Player death : "..NanosTable.Dump(maybePlayerCharacter))
-    if (maybePlayerCharacter) then
+    if (maybePlayerCharacter and maybePlayerCharacter:IsValid()) then
         Timer.SetTimeout(function()
             SpawnPlayer(maybePlayerCharacter)
         end, 2000)
@@ -34,7 +40,9 @@ Character.Subscribe("Death", function(character)
         if (charWeapon) then
             charWeapon:Destroy()
         end
-        character:Destroy()
+        if (character:IsValid()) then
+            character:Destroy()
+        end
     end, 2000)
     
 end)
