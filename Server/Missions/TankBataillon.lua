@@ -5,14 +5,7 @@ local bigEnemyCamp = NACT.RegisterTerritory("TankBataillonSmall", {
     },
     team = NACT_NPC_TEAMS,
     patrolRoutes = {
-        gateFront = {
-            points = {
-                Vector(-6246.35, 13107.7, 198.14),
-                Vector(-4612.09, 12864.16, 198.14),
-                Vector(-5339.6, 12211.33, 198.14)
-            },
-            walkMethod = "circle"
-        }
+        gateFront = NACT_GENERATED.patrolRoutes.TankBataillonFront
     }
 })
 

@@ -4,27 +4,11 @@ local datacenter = NACT.RegisterTerritory("Datacenter", {
         pos = Vector(-20461.71, 4215.02, 198.15),
         radius = 7000
     },
-    team = NACT_NPC_TEAMS,
+    team = 1, --NACT_NPC_TEAMS,
     patrolRoutes = {
-        frontCamp = {
-            points = {
-                Vector(-20417.73, 4071.38, 198.1),
-                Vector(-18437.47, 3902.86, 198.1),
-                Vector(-18685.67, 1708.65, 198.1),
-                Vector(-20263.24, 1713.28, 198.3)
-            },
-            walkMethod = "circle"
-        },
-        frontDatacenter = {
-            points = {
-                Vector(-20470.18, 5574.34, 198.1),
-                Vector(-18956.80, 5598.01, 198.15),
-                Vector(-19032.64, 6649.92, 198.1),
-                Vector(-21786.70, 6764.08, 198.15),
-                Vector(-21990.64, 5685.85, 198.15)
-            },
-            walkMethod = "circle"
-        }
+        frontCamp = NACT_GENERATED.patrolRoutes.DCEntrance,
+        frontDatacenter = NACT_GENERATED.patrolRoutes.FrontDC1,
+        AroundDC = NACT_GENERATED.patrolRoutes.AroundDC
     }
 })
 
@@ -118,11 +102,41 @@ function SpawnDatacenterNPCs()
         "Datacenter",
         PatrollingNpcFrontDatacenter)
 
-        createNpc(
-            Vector(-17978.54, 6214.51, 228.52),
-            "Datacenter",
-            PatrollingNpcFrontDatacenter)
+    createNpc(
+        Vector(-21398.53, 6624.76, 198.2),
+        "Datacenter",
+        PatrollingNpcAroundDatacenter)
+        
+    createNpc(
+        Vector(-21836.05, 6792.04, 198.2),
+        "Datacenter",
+        PatrollingNpcAroundDatacenter)
 
+    createNpc(
+        Vector(-21999.11, 6085.2, 198.2),
+        "Datacenter",
+        PatrollingNpcAroundDatacenter)
+
+    createNpc(
+        Vector(-22040.2, 7969, 198.2),
+        "Datacenter",
+        PatrollingNpcAroundDatacenter)
+
+    createNpc(
+        Vector(-22061.45, 8946.75, 198.2),
+        "Datacenter",
+        PatrollingNpcAroundDatacenter)
+        
+    createNpc(
+        Vector(-21306, 9036, 198.2),
+        "Datacenter",
+        PatrollingNpcAroundDatacenter)
+
+        
+    createNpc(
+        Vector(-20993, 9572.3, 198.2),
+        "Datacenter",
+        PatrollingNpcAroundDatacenter)
     -- Inside barracks
 
     createNpc(

@@ -60,6 +60,20 @@ PatrollingNpcFrontDatacenter = {behaviors = {
     { class = NACT_Cover},
 }}
 
+PatrollingNpcAroundDatacenter = {behaviors = {
+    { class = NACT_Idle },
+    { class = NACT_Patrol, config = {
+        patrolPath = "AroundDC",
+        waitForMin = 2000,
+        waitForMax = 2000
+    }},
+    { class = NACT_Alert},
+    { class = NACT_Combat},
+    { class = NACT_Engage},
+    { class = NACT_Seek},
+    { class = NACT_Cover},
+}}
+
 ZombieNpc = {
     behaviors = {
         { class = NACT_Idle },
@@ -146,5 +160,13 @@ Character.Subscribe("Death", function(character)
                 })
             end
         end
+    end
+end)
+
+
+Events.Subscribe("NACT_Detection:HEAT_CHANGED", function (npcID, heat, target)
+    local maybeNpc = NACT_NPC.GetByID(npcID)
+    if (maybeNpc) then
+        Events.BroadcastRemote("NACT_TEST_GM:HEAT_CHANGED", npcID, maybeNpc.character, heat)
     end
 end)

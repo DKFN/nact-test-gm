@@ -56,6 +56,25 @@
                 document.getElementById("currentAmmo").innerHTML = currentAmmo
                 document.getElementById("maxAmmo").innerHTML = maxAmmo
             });
+
+            Events.Subscribe("UpdateHeat", (npcId, heat, projectedPos) => {
+                const elementId = "npcHeat-" + npcId
+                let targetElement = document.getElementById(elementId)
+                if (!targetElement) {
+                    targetElement = document.createElement("div")
+                    targetElement.id = elementId
+                    console.log("Created element", targetElement)
+                    document.body.appendChild(targetElement)
+                }
+
+                targetElement.style.position = "absolute"
+                targetElement.style.top = projectedPos.y + "px"
+                targetElement.style.left = projectedPos.x + "px"
+                targetElement.style.width = heat + "px";
+                targetElement.style.height = "2rem";
+                targetElement.style.opacity = "0.5";
+                targetElement.style.backgroundColor = heat > 50 ? "red" : "green";
+            })
         </script>
         </head>
     <body>

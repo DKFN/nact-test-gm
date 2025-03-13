@@ -12,6 +12,7 @@ local function SpawnPlayer(player)
     if (player and player:IsValid()) then
         player:Possess(spawnedCharacter)
         spawnedCharacter:SetHealth(500)
+        -- spawnedCharacter:SetHealth(500000)
     else
         AK47:Destroy()
         spawnedCharacter:Destroy()

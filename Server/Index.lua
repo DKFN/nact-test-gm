@@ -4,10 +4,12 @@ Package.Require("./Tests.lua")
 Package.Require("./Player.lua")
 
 -- Missions
-Package.Require("./Missions/TankBataillon.lua")
-Package.Require("./Missions/Datacenter.lua")
-Package.Require("./Missions/ZombieBunker.lua")
-Package.Require("./Missions/SimpleDebug.lua")
+Package.Subscribe("Load", function()
+    Package.Require("./Missions/TankBataillon.lua")
+    Package.Require("./Missions/Datacenter.lua")
+    Package.Require("./Missions/ZombieBunker.lua")
+    Package.Require("./Missions/SimpleDebug.lua")
+end)
 
 -- Utilities
 Package.Require("./SpawnZone.lua")
